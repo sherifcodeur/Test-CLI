@@ -25,6 +25,7 @@ let before = `
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 </head>
 <body>
  
@@ -66,7 +67,7 @@ let after = `
 `
 
 
-
+// *************index creation ***************
 //we create table th
 function createTableth(){
         let tableths = `<tr>`        
@@ -87,10 +88,6 @@ function createTableth(){
         return tableths
 
 }
-
-
-
-
 
 // we create the td for the index
 function createTabletd(){
@@ -125,35 +122,6 @@ function createTabletd(){
   return tabletds
 
 }
-
-
-
- async function createCrud (){
-
-
-        //on doit creer les directory
-        await  createDirectory('views').then(console.log("created views")).catch(err=>console.log("error in creating views"))
-        await  createDirectory(`views/${lowerModelNameplural}`).then(console.log("created views folder artists")).catch(err=>console.log("error in creating views"))
-
-
-        createIndexTable()
-
-
-
-        createCreateForm()
-
-
-
-        //createShow()
-
-
-
-        createEditForm()
-
-     
-
-}
-
 
 // we create index table with pagination and buttons show edit and delete
 function createIndexTable(){
@@ -206,8 +174,10 @@ function createIndexTable(){
 
 
 }
+//***************end of index creation **************/
 
 
+// ******************form creation *****************
 // create the create form
 function createCreateForm(){
 
@@ -325,8 +295,6 @@ function  createEditForm(){
 
 }
 
-
-
 // choose the right field form to add 
 function writeFormTemplate(nameoffield,fieldType){
 
@@ -362,9 +330,7 @@ function writeFormTemplate(nameoffield,fieldType){
 
 }
 
-
-
-// all the form fields types*****************************************
+// all the form fields types*********
 
 // input text field
 function inputtextfieldtemplate(nameoffield) { return `
@@ -404,9 +370,39 @@ function inputtextareafieldtemplate(nameoffield) { return `
 `}
 
 
-// end of all field forms**************************************************
+// end of all field forms*************
 
 
+
+//*******************end of form creation **********/
+
+
+// we create the crud with All the views
+ async function createCrud (){
+
+
+        //on doit creer les directory
+        await  createDirectory('views').then(console.log("created views")).catch(err=>console.log("error in creating views"))
+        await  createDirectory(`views/${lowerModelNameplural}`).then(console.log("created views folder artists")).catch(err=>console.log("error in creating views"))
+
+
+        createIndexTable()
+
+
+
+        createCreateForm()
+
+
+
+        //createShow()
+
+
+
+        createEditForm()
+
+     
+
+}
 
 
 // create a directory at the root level of the app if it doesnt't exist
