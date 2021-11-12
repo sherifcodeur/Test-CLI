@@ -1,7 +1,7 @@
 
 // pour generer le crud faire:    node .\crudgenerators\ArtistCrudGenerator.js
 
-// const { createIndexes } = require('../models/Artist');
+
 
 const Artist = require('../models/Artist')
 
@@ -113,11 +113,9 @@ function createTabletd(){
                 }
         })
 
-        let dollar = '$'
-        let openinggui = '`'
-        let closinggui ='`'
+                       
 
-        tabletds += `<td><a href="" type="button" class="btn btn-xs btn-block bg-gradient-primary">Edit</a></td><td><a href="admin/${lowerModelNameplural}/<%= ${lowerModelName}.id %> type="button" class="btn btn-xs btn-block bg-gradient-danger">Delete</button></td>`
+        tabletds += `<td><a href="/admin/${lowerModelNameplural}/show/<%= ${lowerModelName}.id %>"  type="button" class="btn btn-xs btn-block bg-gradient-primary">Show</a></td><td><a href="/admin/${lowerModelNameplural}/edit/<%= ${lowerModelName}.id %>"  type="button" class="btn btn-xs btn-block bg-gradient-primary">Edit</a></td><td><a href="admin/${lowerModelNameplural}/<%= ${lowerModelName}.id %>" type="button" class="btn btn-xs btn-block bg-gradient-danger">Delete</button></td>`
 
         tabletds += `</tr>`
 
@@ -209,7 +207,7 @@ function createCreateForm(){
                     // console.log(element.options.required)
                      //console.log(element.options.fieldType) 
                     
-                    theform += writeFormTemplate(element.path,element.options.fieldType)       
+                    theform += writeFormTemplate(element.path,element.options.fieldType,"create")       
     
                     }      
     
@@ -251,7 +249,7 @@ function  createEditForm(){
         let theform = ``
 
         theform += before
-        theform += beginformcard(`<form action="/admin/${lowerModelNameplural}/<%= theproduct.id %>?_method=PUT" method="POST">`)
+        theform += beginformcard(`<form action="/admin/${lowerModelNameplural}/update/<%= the${lowerModelName}.id %>?_method=PUT" method="POST">`)
 
 
 
@@ -269,14 +267,14 @@ function  createEditForm(){
                         // console.log(element.options.required)
                         // console.log(element.options.fieldType) 
                         
-                        theform += writeFormTemplate(element.path,element.options.fieldType)       
+                        theform += writeFormTemplate(element.path,element.options.fieldType,"edit")       
         
                         }      
         
         
                 }
         })
-
+        theform += endformcard
         theform += after
 
 
@@ -302,29 +300,29 @@ function  createEditForm(){
 }
 
 // choose the right field form to add 
-function writeFormTemplate(nameoffield,fieldType){
+function writeFormTemplate(nameoffield,fieldType,typeofForm){
 
         switch (fieldType) {
                 case "text":
 
-                        return inputtextfieldtemplate(nameoffield)
+                        return inputtextfieldtemplate(nameoffield,typeofForm)
                         
                         break;
 
                 case "textarea":
-                        return inputtextareafieldtemplate(nameoffield)
+                        return inputtextareafieldtemplate(nameoffield,typeofForm)
 
                         break;
                 
                 case "email":
 
-                        return inputemailfieldtemplate(nameoffield)
+                        return inputemailfieldtemplate(nameoffield,typeofForm)
                             
                         break;
 
                 case "password":
 
-                        return inputpasswordfieldtemplate(nameoffield)
+                        return inputpasswordfieldtemplate(nameoffield,typeofForm)
                                 
                         break;
 
@@ -339,38 +337,77 @@ function writeFormTemplate(nameoffield,fieldType){
 // all the form fields types*********
 
 // input text field
-function inputtextfieldtemplate(nameoffield) { return `
+function inputtextfieldtemplate(nameoffield,typeofForm) {
+        
+        let val = ''
+
+        if(typeofForm == "edit"){
+
+                val = `value="<%= the${lowerModelName}.${nameoffield} %>"`
+        }
+        
+        return `
                         <div class="form-group">
                                 <label for="${nameoffield}">${nameoffield}:</label>
-                                <input type="text" class="form-control" id="${nameoffield}" name="${nameoffield}">
+                                <input type="text" class="form-control" id="${nameoffield}" name="${nameoffield}" ${val}>
                         </div>
 
 `}
 
 
 // input email field
-function inputemailfieldtemplate(nameoffield) { return `
+function inputemailfieldtemplate(nameoffield,typeofForm) { 
+        
+        
+        let val = ''
+
+        if(typeofForm == "edit"){
+
+                val = `value="<%= the${lowerModelName}.${nameoffield} %>"`
+        }
+
+        return `
                         <div class="form-group">
                                 <label for="${nameoffield}">${nameoffield}:</label>
-                                <input type="email" class="form-control" id="${nameoffield}" name="${nameoffield}">
+                                <input type="email" class="form-control" id="${nameoffield}" name="${nameoffield}" ${val}>
                         </div>
 
 `}
 
 // input password field
-function inputpasswordfieldtemplate(nameoffield) { return `
+function inputpasswordfieldtemplate(nameoffield,typeofForm) {
+        
+        let val = ''
+
+        if(typeofForm == "edit"){
+
+                val = `value="<%= the${lowerModelName}.${nameoffield} %>"`
+        }
+        
+        
+        return `
                         <div class="form-group">
                                 <label for="${nameoffield}">${nameoffield}:</label>
-                                <input type="password" class="form-control" id="${nameoffield}" name="${nameoffield}">
+                                <input type="password" class="form-control" id="${nameoffield}" name="${nameoffield}" ${val}>
                         </div>
 
 `}
 
 // text area field
-function inputtextareafieldtemplate(nameoffield) { return `
+function inputtextareafieldtemplate(nameoffield,typeofForm) { 
+        
+        let val = ''
+
+        if(typeofForm == "edit"){
+
+                val = `<%= the${lowerModelName}.${nameoffield} %>`
+        }
+        
+        
+        return `
                         <div class="form-group">
                                 <label for="${nameoffield}">${nameoffield}</label>
-                                <textarea id="${nameoffield}" class="form-control" name="${nameoffield}" rows="4" cols="50"></textarea>
+                                <textarea id="${nameoffield}" class="form-control" name="${nameoffield}" rows="4" cols="50">${val}</textarea>
                         </div> 
 
 `}
@@ -381,6 +418,21 @@ function inputtextareafieldtemplate(nameoffield) { return `
 
 
 //*******************end of form creation **********/
+
+
+
+
+
+// debut of show page creation **************************
+
+
+
+
+
+
+
+
+// end of show page creation ***************************
 
 
 // we create the crud with All the views

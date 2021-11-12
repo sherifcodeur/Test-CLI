@@ -12,11 +12,11 @@
         
         router.post('/', artistController.store)
         
-        // router.get('/show/:id',artistController.show)
+        router.get('/show/:id',artistController.show)
 
-        // router.get('/edit/:id',artistController.edit)
+        router.get('/edit/:id',artistController.edit)
         
-        // router.put('/update/:id',artistController.update)
+        router.put('/update/:id',artistController.update)
         
         router.delete('/delete/:id',artistController.destroy)
         

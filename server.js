@@ -3,6 +3,8 @@
     const express = require('express');
     const dotenv = require('dotenv').config();
     
+    // for overriding methods in form for put and delete
+    const methodOverride = require('method-override');    
 
     const dbconnect = require('./database/connection');
     
@@ -15,6 +17,12 @@
     
     // initializing express application
     const app = express();
+
+
+
+
+//middleware for overriding form method
+app.use(methodOverride('_method'));
 
 
     app.set('view engine','ejs')

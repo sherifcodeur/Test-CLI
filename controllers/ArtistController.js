@@ -5,6 +5,9 @@
     
     // importing the Artist model
     const Artist = require('../models/Artist.js');
+
+
+    let path = '/admin'
     
     
     
@@ -37,7 +40,7 @@
         // console.log(req.body.name);
         let newArtist = new Artist(req.body);
     
-        newArtist.save().then(res.redirect('/admin/artists')).catch(err => console.log(err.message));
+        newArtist.save().then(res.redirect(`${path}/artists`)).catch(err => console.log(err.message));
     
     
     
@@ -89,7 +92,7 @@
         Artist.findByIdAndUpdate(theid, req.body).then(result => {
     
     
-            res.redirect('/artists');
+            res.redirect(`${path}/artists`);
         }).catch(err => console.log(err));
     
     
@@ -104,7 +107,8 @@
     
         Artist.findByIdAndDelete(theid).then(result => {
     
-            res.redirect('/artists');
+            
+            res.redirect(`${path}/artists`);
         }).catch(err => console.log(err));
     
     
