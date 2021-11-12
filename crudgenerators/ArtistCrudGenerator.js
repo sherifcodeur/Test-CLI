@@ -113,6 +113,12 @@ function createTabletd(){
                 }
         })
 
+        let dollar = '$'
+        let openinggui = '`'
+        let closinggui ='`'
+
+        tabletds += `<td><a href="" type="button" class="btn btn-xs btn-block bg-gradient-primary">Edit</a></td><td><a href="admin/${lowerModelNameplural}/<%= ${lowerModelName}.id %> type="button" class="btn btn-xs btn-block bg-gradient-danger">Delete</button></td>`
+
         tabletds += `</tr>`
 
         tabletds += `<% }) %>`
@@ -137,11 +143,11 @@ function createIndexTable(){
         <div class="card-body">
           <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
             <thead>
-            ${createTableth()}
+            ${createTableth()} </th> 
             </thead>
             <tbody>
           
-            ${createTabletd()}
+            ${createTabletd()}  
             </tbody>
             <tfoot>
             <tr>${createTableth()}</tr>

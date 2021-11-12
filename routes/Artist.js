@@ -18,7 +18,7 @@
         
         // router.put('/update/:id',artistController.update)
         
-        // router.delete('/delete/:id',artistController.destroy)
+        router.delete('/delete/:id',artistController.destroy)
         
         // router.get('/search',artistController.search)
         

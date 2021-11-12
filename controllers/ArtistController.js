@@ -37,7 +37,7 @@
         // console.log(req.body.name);
         let newArtist = new Artist(req.body);
     
-        newArtist.save().then(res.redirect('/artists')).catch(err => console.log(err.message));
+        newArtist.save().then(res.redirect('/admin/artists')).catch(err => console.log(err.message));
     
     
     
