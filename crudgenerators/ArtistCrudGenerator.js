@@ -450,7 +450,86 @@ function inputtextareafieldtemplate(nameoffield,typeofForm) {
 // debut of show page creation **************************
 
 
+function generateParagraphs(){
+                let paraphs =''
+                // we loop through each element of the schema
+                pak.forEach(element=>{
 
+                        
+
+                        // if schema field contains generator with i (index inside) we build the index
+                        if(element.options.generator){
+                
+                                if(element.options.generator.includes("s")){
+                
+                                // console.log(element.path)
+                                // console.log(element.instance)
+                                // console.log(element.options.generator)
+                                // console.log(element.options.required)
+                                // console.log(element.options.fieldType) 
+                                
+                                // theform += writeFormTemplate(element.path,element.options.fieldType,"edit") 
+                                
+                                let nameoffield = element.path
+
+                                paraphs += `<p> <%= the${lowerModelName}.${nameoffield} %> </p>`
+                
+                                }      
+                
+                
+                        }
+
+                        
+                })
+
+                return paraphs
+}
+
+
+function createShowPage(){
+
+        let page = ''
+
+        page += before
+
+        page += `<div class="card">
+        <div class="card-header">
+          <h3 class="card-title">DataTable with minimal features &amp; hover style</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+
+        ${generateParagraphs()}
+
+
+
+        <!-- /.card-body -->
+        </div>
+        </div>`
+
+
+        page += after
+
+
+        
+        fs.writeFile(`views/${lowerModelNameplural}/show.ejs`, page ,(err)=>{
+
+                if(err){
+
+                    console.log(err)
+
+                }else{
+
+                    console.log('success created show view')
+                }
+           
+     
+
+});
+
+
+
+}
 
 
 
@@ -476,7 +555,7 @@ function inputtextareafieldtemplate(nameoffield,typeofForm) {
 
 
 
-        //createShow()
+        createShowPage()
 
 
 
