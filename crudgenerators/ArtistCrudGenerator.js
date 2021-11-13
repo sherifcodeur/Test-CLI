@@ -462,14 +462,6 @@ function generateParagraphs(){
                 
                                 if(element.options.generator.includes("s")){
                 
-                                // console.log(element.path)
-                                // console.log(element.instance)
-                                // console.log(element.options.generator)
-                                // console.log(element.options.required)
-                                // console.log(element.options.fieldType) 
-                                
-                                // theform += writeFormTemplate(element.path,element.options.fieldType,"edit") 
-                                
                                 let nameoffield = element.path
 
                                 paraphs += `<p> <%= the${lowerModelName}.${nameoffield} %> </p>`
