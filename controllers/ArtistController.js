@@ -5,23 +5,81 @@
     
     // importing the Artist model
     const Artist = require('../models/Artist.js');
+    
 
-
+    // change it with the path to your admin urls
     let path = '/admin'
     
-    
-    
+
+
     // shows all artist
-    const index = (req, res) => {
+    const index = async (req, res) => {
+
+
+        /// simplest way 
     
-        Artist.find().then((result) => {
+        // Artist.find().then((result) => {
     
-            //console.log(result);
+        //     //console.log(result);
+        //     res.render('./artists/index', {
+    
+        //         allartists: result
+        //     });
+        // }).catch(err => console.log(err));
+
+
+        ///////////////
+
+
+
+
+        // pagination with skip limit method no need of plugins--------------------
+        try {
+    
+            // the page size , how many rows we want
+            let limit = parseInt(req.query.limit);
+            //console.log("la limit",limit)
+    
+            //how many rows to skip before showing
+            let offset = parseInt(req.query.offset);
+            //console.log("offset",offset)
+    
+            if(!offset){           
+                offset = 0  }
+    
+            if(!limit){
+                limit = 5
+            }
+    
+            const allartists = await Artist.find()
+                                            .skip(offset)
+                                            .limit(limit)
+            const artistsCount= await Artist.count();
+    
+            const totalPages = Math.ceil(artistsCount/limit)
+            const currentPage = Math.ceil(offset / limit)+1
+    
+
             res.render('./artists/index', {
+        
+                allartists: allartists,
+                paging:{
+                   total:artistsCount,
+                   page:currentPage,
+                   pages:totalPages
+               }
+
+           });    
+
+        } catch (error) {
+            console.log("error",error)
+            res.status(500).send({data:null})        
+        }
     
-                allartists: result
-            });
-        }).catch(err => console.log(err));
+        // // end of pagination with skip limit--------------------------
+
+
+    
     
     
     }
@@ -107,7 +165,6 @@
     
         Artist.findByIdAndDelete(theid).then(result => {
     
-            
             res.redirect(`${path}/artists`);
         }).catch(err => console.log(err));
     
