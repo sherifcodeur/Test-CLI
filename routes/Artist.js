@@ -6,7 +6,7 @@
         
         
         
-        router.get('/', artistController.index)
+        router.get('/:page?', artistController.index)
 
         router.get('/create', artistController.create)
         

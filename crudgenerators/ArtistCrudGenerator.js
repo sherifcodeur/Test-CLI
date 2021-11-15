@@ -160,25 +160,34 @@ function createIndexTable(){
           <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
 
 
-         <%  if (paging.pages > 0) { %>
-                <ul class="pagination">
-                on a une pagination
-                </ul>
-
-         <%  } %>
-
-
-
-
-
-
-
-
-
-
-
-
-
+<% if (pages > 0) { %>
+        <ul class="pagination">
+            <% if (current == 1) { %>
+                <li class="paginate_button page-item previous disabled" id="example2_previous"><a  class="page-link">First</a></li>
+            <% } else { %>
+                <li><a href="/admin/${lowerModelNameplural}/1"  class="page-link">First</a></li>
+            <% } %>
+            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% if (i !== 1) { %>
+                <li class="paginate_button page-item previous disabled" id="example2_previous"><a  class="page-link">...</a></li>
+            <% } %>
+            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                <% if (i == current) { %>
+                    <li class="active"><a  class="page-link"><%= i %></a></li>
+                <% } else { %>
+                        <li class="paginate_button page-item "><a href="/admin/${lowerModelNameplural}/<%= i %>"  class="page-link"><%= i %></a></li>
+                <% } %>
+                <% if (i == Number(current) + 4 && i < pages) { %>
+                        <li class="paginate_button page-item previous disabled" id="example2_previous"><a  class="page-link">...</a></li>
+                <% } %>
+            <% } %>
+            <% if (current == pages) { %>
+                <li class="paginate_button page-item previous disabled" id="example2_previous"><a  class="page-link">Last</a></li>
+            <% } else { %>
+                <li><a href="/admin/${lowerModelNameplural}/<%= pages %>"  class="page-link">Last</a></li>
+            <% } %>
+        </ul>
+    <% } %>
 
 
 

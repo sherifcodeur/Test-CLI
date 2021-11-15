@@ -31,50 +31,71 @@
         ///////////////
 
 
+        // pagination with skip limit
+        var perPage = 5
+        var page = req.params.page || 1
+    
+         Artist
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function(err, artists) {
+            Artist.count().exec(function(err, count) {
+                     if (err) return next(err)
+                    res.render('./artists/index', {
+                         allartists: artists,
+                        current: page,
+                         pages: Math.ceil(count / perPage)
+                    })
+                })
+            })
+        // -----------------------------
 
 
-        // pagination with skip limit method no need of plugins--------------------
-        try {
+
+
+        // pagination with skip limit method no need of plugins to use may be with api instead of ejs--------------------
+        // try {
     
-            // the page size , how many rows we want
-            let limit = parseInt(req.query.limit);
-            //console.log("la limit",limit)
+        //     // the page size , how many rows we want
+        //     let limit = parseInt(req.query.limit);
+        //     //console.log("la limit",limit)
     
-            //how many rows to skip before showing
-            let offset = parseInt(req.query.offset);
-            //console.log("offset",offset)
+        //     //how many rows to skip before showing
+        //     let offset = parseInt(req.query.offset);
+        //     //console.log("offset",offset)
     
-            if(!offset){           
-                offset = 0  }
+        //     if(!offset){           
+        //         offset = 0  }
     
-            if(!limit){
-                limit = 5
-            }
+        //     if(!limit){
+        //         limit = 5
+        //     }
     
-            const allartists = await Artist.find()
-                                            .skip(offset)
-                                            .limit(limit)
-            const artistsCount= await Artist.count();
+        //     const allartists = await Artist.find()
+        //                                     .skip(offset)
+        //                                     .limit(limit)
+        //     const artistsCount= await Artist.count();
     
-            const totalPages = Math.ceil(artistsCount/limit)
-            const currentPage = Math.ceil(offset / limit)+1
+        //     const totalPages = Math.ceil(artistsCount/limit)
+        //     const currentPage = Math.ceil(offset / limit)+1
     
 
-            res.render('./artists/index', {
+        //     res.render('./artists/index', {
         
-                allartists: allartists,
-                paging:{
-                   total:artistsCount,
-                   page:currentPage,
-                   pages:totalPages
-               }
+        //         allartists: allartists,
+        //         paging:{
+        //            total:artistsCount,
+        //            page:currentPage,
+        //            pages:totalPages
+        //        }
 
-           });    
+        //    });    
 
-        } catch (error) {
-            console.log("error",error)
-            res.status(500).send({data:null})        
-        }
+        // } catch (error) {
+        //     console.log("error",error)
+        //     res.status(500).send({data:null})        
+        // }
     
         // // end of pagination with skip limit--------------------------
 
